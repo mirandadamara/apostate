@@ -1,0 +1,19 @@
+{
+  "name": "cortex",
+  "version": "0.0.0",
+  "description": "Reactive state management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zebulonj/cortex.git"
+  },
+  "author": "Zebulon Young (zebulonj@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zebulonj/cortex/issues"
+  },
+  "homepage": "https://github.com/zebulonj/cortex"
+}
