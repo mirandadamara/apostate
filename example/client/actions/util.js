@@ -1,13 +1,19 @@
 import Rx from 'rx/dist/rx.all';
 
 export function pick( key ) {
-	return function( obj ) {
-		return Rx.Observable.return( obj[key] );
+	return function({ state, input }) {
+		return Rx.Observable.return( input[key] );
 	};
 }
 
-export function echo( value ) {
-	console.log( "ECHO:", value );
+export function echo({ state, input }) {
+	console.log( "ECHO:", input );
 
-	return Rx.Observable.return( value );
+	return Rx.Observable.return( input );
+}
+
+export function state({ state, input }) {
+	console.log( "STATE:", state );
+
+	return Rx.Observable.return( input );
 }

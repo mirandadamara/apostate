@@ -2,11 +2,11 @@ import Rx from 'rx/dist/rx.all';
 
 import cortex from './cortex';
 
-import { pick, echo } from './actions/util';
+import { pick, echo, state } from './actions/util';
 import { f1, f2, f3 } from './actions/process';
 
-const sig1 = cortex.signal( 'sig1', [pick( 'params' ), f1, f2, echo] );
-const sig2 = cortex.signal( 'sig2', [pick( 'params' ), f1, f2, f3, echo ] );
+const sig1 = cortex.signal( 'sig1', [pick( 'params' ), state, f1, f2, echo] );
+const sig2 = cortex.signal( 'sig2', [pick( 'params' ), state, f1, f2, f3, echo ] );
 
 console.log( "Client!" );
 

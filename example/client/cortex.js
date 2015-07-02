@@ -1,3 +1,5 @@
 import Cortex from '../../lib';
 
-export default Cortex();
+export default Cortex({
+	counter: 0
+});
