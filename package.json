@@ -21,7 +21,10 @@
   "devDependencies": {
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
-    "http-server": "^0.8.0",
+    "http-server": "^0.8.0"
+  },
+  "dependencies": {
+    "immutable": "^3.7.4",
     "rx": "^2.5.3"
   }
 }

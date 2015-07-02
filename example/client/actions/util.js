@@ -11,9 +11,3 @@ export function echo({ state, input }) {
 
 	return Rx.Observable.return( input );
 }
-
-export function state({ state, input }) {
-	console.log( "STATE:", state );
-
-	return Rx.Observable.return( input );
-}
