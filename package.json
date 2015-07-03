@@ -26,5 +26,8 @@
   "dependencies": {
     "immutable": "^3.7.4",
     "rx": "^2.5.3"
+  },
+  "browserify": {
+    "transform": ["babelify"]
   }
 }
