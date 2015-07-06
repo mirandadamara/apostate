@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build-example && http-server example",
-    "build-example": "browserify example/client -t babelify > example/build/client.js"
+    "build-example": "browserify example/client -t babelify > example/build/client.js",
+    "build-benchmark": "browserify benchmark/index -t babelify > benchmark/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -25,9 +26,12 @@
   },
   "dependencies": {
     "immutable": "^3.7.4",
+    "lodash": "^3.10.0",
     "rx": "^2.5.3"
   },
   "browserify": {
-    "transform": ["babelify"]
+    "transform": [
+      "babelify"
+    ]
   }
 }
