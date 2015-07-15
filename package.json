@@ -22,8 +22,10 @@
   "homepage": "https://github.com/zebulonj/apostate",
   "devDependencies": {
     "babelify": "^6.1.2",
+    "blue-tape": "^0.1.10",
     "browserify": "^10.2.4",
-    "http-server": "^0.8.0"
+    "http-server": "^0.8.0",
+    "tape": "^4.0.0"
   },
   "dependencies": {
     "immutable": "^3.7.4",
