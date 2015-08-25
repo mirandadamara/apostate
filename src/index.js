@@ -47,10 +47,8 @@ export default function( initializer = {}, options = {} ) {
 
 		return {
 			cacheState( state, source = "UNKNOWN" ) {
-				if ( cachedState != state ) {
-					//console.log( "UPDATE STATE:", state, source );
-
-					cachedState = state;
+				if ( cachedState !== state ) {
+					frames.onNext( cachedState = state );
 				}
 
 				return cachedState;

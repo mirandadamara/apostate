@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build-example && http-server example",
     "build": "babel src --out-dir lib",
+    "build-watch": "babel src --watch --out-dir lib",
     "build-example": "browserify example/client -t babelify > example/build/client.js",
     "build-benchmark": "browserify benchmark/index -t babelify > benchmark/bundle.js",
     "benchmark": "npm run build-benchmark && http-server benchmark"
