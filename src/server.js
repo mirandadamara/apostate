@@ -24,6 +24,9 @@ export default function( router ) {
    */
   function prepare( actions ) {
 
+    /**
+     * @param {Object} req.state The initial state for the request.
+     */
     return function( req, res, next ) {
       console.log( "ROUTED REQUEST:", req.path );
       let params = { f1: 'A', f2: 'B' };
@@ -40,7 +43,8 @@ export default function( router ) {
     				return cachedState;
     			}
     		};
-    	})( Immutable.fromJS({ base: 0 }) );
+    	})( Immutable.fromJS( req.state || {} ) );
+
     	/**
     	 * Wrap an action to inject current state and cache mutated state.
     	 *
