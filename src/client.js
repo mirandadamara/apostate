@@ -4,6 +4,8 @@ import Immutable from 'immutable';
 import each from 'lodash/collection/each';
 import defaults from 'lodash/object/defaults';
 
+import page from 'page';
+
 import { chainOperator, chain } from './chain';
 Rx.Observable.prototype.chain = chainOperator;
 
@@ -185,14 +187,9 @@ export default function( initializer = {}, options = {} ) {
 			};
 		},
 
-		/**
-		 * Route the designated path through the Apostate engine.
-		 *
-		 * @param  {String} path
-		 * @param  {[Function]} actions
-		 */
-		route( path, actions = [] ) {
-			console.log( "ROUTE:", path );
+		route( routes ) {
+			routes( ( path, actions ) => page( path, this.signal( 'route:' + path, actions ) ) ); // TODO: Accept an injected route adapter.
+			page();
 		},
 
 		/**

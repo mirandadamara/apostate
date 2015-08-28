@@ -36,6 +36,7 @@
   "dependencies": {
     "immutable": "^3.7.4",
     "lodash": "^3.10.0",
+    "page": "^1.6.3",
     "rx": "^2.5.3"
   },
   "browserify": {
