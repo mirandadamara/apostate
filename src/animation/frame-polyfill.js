@@ -19,6 +19,9 @@ if ( typeof window != 'undefined' ) {
 		request = window[vendors[x]+'RequestAnimationFrame'];
 		cancel 	= window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
 	}
+
+	request = request.bind( window );
+	cancel = cancel.bind( window );
 }
 
 if ( !request ) {
@@ -38,8 +41,5 @@ if ( !request ) {
 		clearTimeout( id );
 	};
 }
-
-request = request.bind( window );
-cancel = cancel.bind( window );
 
 export { request, cancel };
