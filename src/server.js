@@ -36,6 +36,8 @@ export default function( router ) {
       return Rx.Observable.return( params );
     }
 
+    const __actions = [f1, f2];
+
     return function( req, res, next ) {
       console.log( "ROUTED REQUEST:", req.path );
       let params = { f1: 'A', f2: 'B' };
@@ -88,8 +90,7 @@ export default function( router ) {
 
       // action1.concatMap( action2 ).take( 1 )
       Rx.Observable.return( params )
-        .concatMap( wrap( f1 ) )
-        .concatMap( wrap( f2 ) )
+        .chain( Rx.Observable.fromArray( map( __actions, wrap ) ) )
         .subscribe(
           () => frames.onNext({ req, res, next, state: fetchState() }),
           ( err ) => next( err )
