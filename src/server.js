@@ -28,8 +28,7 @@ export default function( router ) {
      * @param {Object} req.state The initial state for the request.
      */
     return function( req, res, next ) {
-      let params = { f1: 'A', f2: 'B' };
-
+      const { query, params } = req;
     	const { cacheState, fetchState } = (function( initializer ) {
     		let cachedState = Immutable.fromJS( defaults( initializer, defaultState ) );
 
@@ -53,11 +52,11 @@ export default function( router ) {
     	function wrap( action ) {
     		const name = ( action.displayName || action.name || 'action' );
 
-    		let fn = function wrappedAction( params ) {
+    		let fn = function wrappedAction( inputs ) {
     			let output;
 
     			const state = fetchState().withMutations( function( mutableState ) {
-    				output = action( mutableState, params );
+    				output = action( mutableState, inputs );
 
     				return mutableState;
     			});
@@ -76,9 +75,7 @@ export default function( router ) {
     		return fn;
     	}
 
-
-      // action1.concatMap( action2 ).take( 1 )
-      Rx.Observable.return( params )
+      Rx.Observable.return({ query, params })
         .chain( Rx.Observable.fromArray( map( actions, wrap ) ) )
         .subscribe(
           () => frames.onNext({ req, res, next, state: fetchState() }),
