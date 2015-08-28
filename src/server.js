@@ -28,7 +28,6 @@ export default function( router ) {
      * @param {Object} req.state The initial state for the request.
      */
     return function( req, res, next ) {
-      console.log( "ROUTED REQUEST:", req.path );
       let params = { f1: 'A', f2: 'B' };
 
     	const { cacheState, fetchState } = (function( initializer ) {
@@ -92,8 +91,6 @@ export default function( router ) {
     route( routes ) {
       // Mount routes.
       routes( function( path, actions ) {
-        console.log( "MOUNT ROUTE:", path );
-
         router.get( path, prepare( actions ) );
       });
     },
