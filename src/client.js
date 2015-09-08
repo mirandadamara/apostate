@@ -189,7 +189,7 @@ export default function( initializer = {}, options = {} ) {
 
 		route( routes ) {
 			routes( ( path, actions ) => page( path, this.signal( 'route:' + path, actions ) ) ); // TODO: Accept an injected route adapter.
-			page();
+			page({ dispatch: false });
 		},
 
 		/**
