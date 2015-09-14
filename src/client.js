@@ -75,7 +75,7 @@ export default function( initializer = {}, options = {} ) {
 			let output;
 
 			const state = fetchState().withMutations( function( state ) {
-				output = action( state, input, { animate: animationHelper( state ), dispatch: queue });
+				output = action( state, input, { dispatch: queue, navigate, redirect });
 
 				return state;
 			});
@@ -118,6 +118,14 @@ export default function( initializer = {}, options = {} ) {
 
 	function id( prefix = '' ) {
 		return ( prefix + counter++ );
+	}
+
+	function navigate( path ) {
+		return page( path );
+	}
+
+	function redirect( path ) {
+		return page.redirect( path );
 	}
 
 	/**
