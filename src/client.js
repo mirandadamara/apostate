@@ -1,10 +1,10 @@
 import Rx from 'rx/dist/rx.all';
 import Immutable from 'immutable';
 
+import assign from 'lodash/object/assign';
+import mapValues from 'lodash/object/mapValues';
 import each from 'lodash/collection/each';
 import defaults from 'lodash/object/defaults';
-
-import page from 'page';
 
 import { chainOperator, chain } from './chain';
 Rx.Observable.prototype.chain = chainOperator;
@@ -27,7 +27,10 @@ const defaultOptions = {
 export default function( initializer = {}, options = {} ) {
 	options = defaults( options, defaultOptions );
 
+	const { router } = options;
+
 	const signalHelpers = {};
+	const utilities = {};
 
 	/**
 	 * A collection of subscription disposal functions associated with signal processing channels.
@@ -75,7 +78,7 @@ export default function( initializer = {}, options = {} ) {
 			let output;
 
 			const state = fetchState().withMutations( function( state ) {
-				output = action( state, input, { dispatch: queue, navigate, redirect });
+				output = action( state, input, utilities );
 
 				return state;
 			});
@@ -120,14 +123,6 @@ export default function( initializer = {}, options = {} ) {
 		return ( prefix + counter++ );
 	}
 
-	function navigate( path ) {
-		return page( path );
-	}
-
-	function redirect( path ) {
-		return page.redirect( path );
-	}
-
 	/**
 	 * Calls each animation (recording immediate updates against state); then trims completed animations.
 	 *
@@ -168,6 +163,10 @@ export default function( initializer = {}, options = {} ) {
 	}
 
 	return {
+		inject( factories ) {
+			assign( utilities, mapValues( factories, factory => factory({}) ) );
+		},
+
 		/**
 		 * Create a pathway for processing a named signal, via a sequence of actions.
 		 *
@@ -196,8 +195,7 @@ export default function( initializer = {}, options = {} ) {
 		},
 
 		route( routes ) {
-			routes( ( path, actions ) => page( path, this.signal( 'route:' + path, actions ) ) ); // TODO: Accept an injected route adapter.
-			page({ dispatch: false });
+			routes( ( path, actions ) => router( path, this.signal( 'route:' + path, actions ) ) );
 		},
 
 		/**
