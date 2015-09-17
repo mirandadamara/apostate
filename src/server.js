@@ -1,7 +1,9 @@
 import Rx from 'rx/dist/rx.all';
 import Immutable from 'immutable';
 
+import assign from 'lodash/object/assign';
 import map from 'lodash/collection/map';
+import mapValues from 'lodash/object/mapValues';
 import defaults from 'lodash/object/defaults';
 
 import { chainOperator, chain } from './chain';
@@ -18,6 +20,8 @@ const defaultState = {};
  */
 export default function( router ) {
   const frames = new Rx.Subject();
+
+  const injectables = {};
 
   /**
    * Prepare an array of actions for mounting.
@@ -41,7 +45,9 @@ export default function( router ) {
     				return cachedState;
     			}
     		};
-    	})( Immutable.fromJS( req.state || {} ) );
+    	})( req.state || {} );
+
+      const utilities = mapValues( injectables, util => util({ session: req.session }) );
 
     	/**
     	 * Wrap an action to inject current state and cache mutated state.
@@ -56,7 +62,7 @@ export default function( router ) {
     			let output;
 
     			const state = fetchState().withMutations( function( mutableState ) {
-    				output = action( mutableState, inputs );
+    				output = action( mutableState, inputs, utilities );
 
     				return mutableState;
     			});
@@ -85,6 +91,10 @@ export default function( router ) {
   }
 
   return {
+    inject( utilities ) {
+      assign( injectables, utilities );
+    },
+
     route( routes ) {
       // Mount routes.
       routes( function( path, actions ) {
