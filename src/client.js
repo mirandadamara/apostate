@@ -182,7 +182,7 @@ export default function( initializer = {}, options = {} ) {
 				.filter( signal => ( signal.name == name ) )
 				.map( signal => signal.params )
 				.chain( actions )
-				.tapOnError( err => console.error( "PROCESSING ERROR:", err ) );
+				.tapOnError( err => console.error( err ) );
 
 			const source = channel.publish();
 			const connection = source.connect();
