@@ -206,10 +206,13 @@ export default function( initializer = {}, options = {} ) {
 		 * @param handler {Function} Signature: `( state ) => {}`
 		 */
 		mount( handler ) {
-			// Initiale mounting...
+			// Subscribe before mounting to catch initial `componentDidMount` signals.
+			const subscription = frames.subscribe( ( state ) => handler( state, signalHelpers ) );
+
+			// Initial mounting...
 			handler( fetchState(), signalHelpers );
 
-			return frames.subscribe( ( state ) => handler( state, signalHelpers ) );
+			return subscription;
 		},
 
 		signals: signalHelpers
