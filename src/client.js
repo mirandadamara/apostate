@@ -30,7 +30,9 @@ export default function( initializer = {}, options = {} ) {
 	const { router } = options;
 
 	const signalHelpers = {};
-	const utilities = {};
+	const utilities = {
+		dispatch: queue
+	};
 
 	/**
 	 * A collection of subscription disposal functions associated with signal processing channels.
