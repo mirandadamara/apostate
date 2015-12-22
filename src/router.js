@@ -11,6 +11,7 @@ export default function( options = {} ) {
   return {
     get( path, ...handlers ) {
       handlers = map( handlers, handler => adapter.adapt( handler ) );
+
       adapter.route( path, handlers );
     }
   };
