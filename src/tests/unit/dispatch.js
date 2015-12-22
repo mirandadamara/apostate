@@ -41,3 +41,23 @@ test( "Actions", sub => {
     assert.equal( flag, false, "The action should be executed after the dispatching thread completes.")
   });
 });
+
+test( "Errors", sub => {
+  sub.test( "...thrown in actions should be captured and reported.", assert => {
+    assert.plan( 1 );
+
+    const engine = Engine();
+
+    engine.state(
+      state => {},
+      error => {
+        assert.pass( "An error should be caught." );
+        assert.end();
+      }
+    );
+
+    engine.dispatch( state => {
+      throw new Error( "Apostate test error." );
+    });
+  });
+});
