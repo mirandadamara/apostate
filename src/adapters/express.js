@@ -1,8 +1,9 @@
 import Immutable from 'immutable';
+import { Observable } from 'rx/dist/rx.all';
 
 const defaultOptions = {
   session( req ) {
-    return Immutable.Map();
+    return Observable.return( Immutable.Map() );
   }
 };
 
@@ -13,25 +14,25 @@ export default function( options = {} ) {
 
   // Add middleware to express app.
   app.use( ( req, res, next ) => {
-    const initialState = session( req );
+    session( req ).subscribe( initialState => {
+      const engine = Engine({ initialState });
 
-    const engine = Engine({ initialState });
+      function dispatch() {
+        return engine.dispatch.apply( engine, arguments );
+      }
 
-    function dispatch() {
-      return engine.dispatch.apply( engine, arguments );
-    }
+      function completed() {
+        engine.dispatch( state => {
+          const { document, status } = render( state );
 
-    function completed() {
-      engine.dispatch( state => {
-        const { document, status } = render( state );
+          res.status( status ).send( document );
+        });
+      };
 
-        res.status( status ).send( document );
-      });
-    };
+      Object.assign( res, { dispatch, completed });
 
-    Object.assign( res, { dispatch, completed });
-
-    next();
+      next();
+    });
   });
 
   return {

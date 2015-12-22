@@ -2,7 +2,9 @@ import test from 'tape';
 import request from 'supertest';
 
 import express from 'express';
+
 import Immutable from 'immutable';
+import { Observable } from 'rx/dist/rx.all';
 
 import Engine from '../../server';
 import Router from '../../router';
@@ -13,11 +15,13 @@ test( "The Express Adapter", sub => {
     const app = express();
 
     function session( req ) {
-      return Immutable.fromJS({
+      const state = Immutable.fromJS({
         flags: {
           color: 'GREEN'
         }
       });
+
+      return Observable.return( state );
     }
 
     function render( state ) {
