@@ -21,7 +21,12 @@ test( "The Express Adapter", sub => {
     }
 
     function render( state ) {
-      return state.getIn( ['flags', 'color'], 'RED' );
+      const document = state.getIn( ['flags', 'color'], 'RED' );
+
+      return {
+        document,
+        status: 200
+      };
     }
 
     const router = Router({ adapter: ExpressAdapter({ app, Engine, session, render }) });
