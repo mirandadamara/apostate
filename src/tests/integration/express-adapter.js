@@ -50,4 +50,50 @@ test( "The Express Adapter", sub => {
         assert.end();
       });
   });
+
+  sub.test( "...should catch errors and pass them back into the express router.", assert => {
+    const app = express();
+
+    function session( req ) {
+      const state = Immutable.fromJS({
+        flags: {
+          color: 'GREEN'
+        }
+      });
+
+      return Observable.return( state );
+    }
+
+    function render( state ) {
+      const document = state.getIn( ['flags', 'color'], 'RED' );
+
+      throw new Error( "ExpressAdapter test error." );
+
+      return {
+        document,
+        status: 200
+      };
+    }
+
+    const router = Router({ adapter: ExpressAdapter({ app, Engine, session, render }) });
+
+    router.get( '/b', ( req, res, next ) => {
+      res.completed();
+    });
+
+    app.use( ( err, req, res, next ) => {
+      assert.ok( err, "An error should be caught." );
+
+      res.status( 500 ).send( 'ERROR' );
+    });
+
+    request( app ).get( '/b' )
+      .end( ( err, res ) => {
+        assert.error( err );
+        assert.equal( res.status, 500, "The response status should reflect the error." );
+        assert.equal( res.text, 'ERROR', "The error response should be returned." );
+
+        assert.end();
+      });
+  });
 });

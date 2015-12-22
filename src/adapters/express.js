@@ -29,6 +29,11 @@ export default function( options = {} ) {
         });
       };
 
+      engine.state(
+        state => {},
+        error => next( error )
+      );
+
       Object.assign( res, { dispatch, completed });
 
       next();
