@@ -1,6 +1,6 @@
 import test from 'tape';
 
-import Engine from '../../client';
+import Engine from '../../engine';
 
 test( "The dispatcher", sub => {
   sub.test( "...should accept anonymous actions.", assert => {

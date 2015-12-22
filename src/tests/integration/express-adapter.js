@@ -6,7 +6,7 @@ import express from 'express';
 import Immutable from 'immutable';
 import { Observable } from 'rx/dist/rx.all';
 
-import Engine from '../../server';
+import Engine from '../../engine';
 import Router from '../../router';
 import ExpressAdapter from '../../adapters/express';
 
