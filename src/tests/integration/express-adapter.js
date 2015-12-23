@@ -14,7 +14,7 @@ test( "The Express Adapter", sub => {
   sub.test( "...should append a 'completed' message to 'res' object, that results in rendering and returning a document.", assert => {
     const app = express();
 
-    function session( req ) {
+    function initialize( req ) {
       const state = Immutable.fromJS({
         flags: {
           color: 'GREEN'
@@ -33,7 +33,7 @@ test( "The Express Adapter", sub => {
       };
     }
 
-    const router = Router({ adapter: ExpressAdapter({ app, Engine, session, render }) });
+    const router = Router({ adapter: ExpressAdapter({ app, Engine, initialize, render }) });
 
     router.get( '/a', ( req, res, next ) => {
       assert.equal( typeof res.completed, 'function', "The Express Adapter should append a 'completed' method to the 'res' object." );
@@ -54,7 +54,7 @@ test( "The Express Adapter", sub => {
   sub.test( "...should catch errors and pass them back into the express router.", assert => {
     const app = express();
 
-    function session( req ) {
+    function initialize( req ) {
       const state = Immutable.fromJS({
         flags: {
           color: 'GREEN'
@@ -75,7 +75,7 @@ test( "The Express Adapter", sub => {
       };
     }
 
-    const router = Router({ adapter: ExpressAdapter({ app, Engine, session, render }) });
+    const router = Router({ adapter: ExpressAdapter({ app, Engine, initialize, render }) });
 
     router.get( '/b', ( req, res, next ) => {
       res.completed();

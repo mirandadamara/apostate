@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import { Observable } from 'rx/dist/rx.all';
 
 const defaultOptions = {
-  session( req ) {
+  initialize( req ) {
     return Observable.return( Immutable.Map() );
   }
 };
@@ -10,11 +10,11 @@ const defaultOptions = {
 export default function( options = {} ) {
   options = Object.assign({}, defaultOptions, options );
 
-  const { app, Engine, session, render } = options;
+  const { app, Engine, initialize, render } = options;
 
   // Add middleware to express app.
   app.use( ( req, res, next ) => {
-    session( req ).subscribe( initialState => {
+    initialize( req ).subscribe( initialState => {
       const engine = Engine({ initialState });
 
       function dispatch() {
