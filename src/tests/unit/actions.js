@@ -24,6 +24,21 @@ test( "The dispatcher", sub => {
       state.setIn( ['test', 'A'], true );
     });
   });
+
+  sub.test( "...should accept registered actions by name.", assert => {
+    assert.timeoutAfter( 1000 );
+
+    const engine = Engine();
+
+    assert.equal( typeof engine.register, 'function', "An engine should expose a 'register' method." );
+
+    engine.register( 'toggle', ( state, params ) => {
+      assert.deepEqual( params, { flag: 'test-a', value: true }, "Dispatched parameters should be passed to the action." );
+      assert.end();
+    });
+
+    engine.dispatch( 'toggle', { flag: 'test-a', value: true });
+  });
 });
 
 test( "Actions", sub => {
