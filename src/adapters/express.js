@@ -34,6 +34,7 @@ export default function( options = {} ) {
         error => next( error )
       );
 
+      Object.assign( req, { state: initialState });
       Object.assign( res, { dispatch, completed });
 
       next();

@@ -96,4 +96,46 @@ test( "The Express Adapter", sub => {
         assert.end();
       });
   });
+
+  sub.test( "...should append a snapshot of the current engine state to the 'req' object.", assert => {
+    const app = express();
+
+    function initialize( req ) {
+      const state = Immutable.fromJS({
+        flags: {
+          color: 'BLUE'
+        }
+      });
+
+      return Observable.return( state );
+    }
+
+    function render( state ) {
+      const document = state.getIn( ['flags', 'color'], 'RED' );
+
+      return {
+        document,
+        status: 200
+      };
+    }
+
+    const router = Router({ adapter: ExpressAdapter({ app, Engine, initialize, render }) });
+
+    router.get( '/c', ( req, res, next ) => {
+      const { state } = req;
+
+      assert.ok( state, "An immutable state object should be attached to the 'req' object." );
+      assert.equal( state.getIn( ['flags', 'color'] ), 'BLUE', "The state object should reflect the state at the time of the request." );
+
+      res.completed();
+    });
+
+    request( app ).get( '/c' )
+      .end( ( err, res ) => {
+        assert.error( err );
+        assert.equal( res.text, 'BLUE', "The current state should be reflected by the returned document." );
+
+        assert.end();
+      });
+  });
 });
