@@ -138,4 +138,44 @@ test( "The Express Adapter", sub => {
         assert.end();
       });
   });
+
+  sub.test( "...should create an engine using the configuration options provided.", assert => {
+    assert.plan( 2 );
+    assert.timeoutAfter( 1000 );
+
+    const app = express();
+
+    function initialize( req ) {
+      return Observable.return({});
+    }
+
+    function render( state ) {
+      return {
+        document: 'OK',
+        status: 200
+      };
+    }
+
+    const config = {
+      actions: {
+        'test:action-b': function( state, params ) {
+          assert.pass( "The action was executed." );
+        }
+      }
+    }
+
+    const router = Router({ adapter: ExpressAdapter({ app, Engine, config, initialize, render }) });
+
+    router.get( '/d', ( req, res, next ) => {
+      res.dispatch( 'test:action-b' );
+      res.completed();
+    });
+
+    request( app ).get( '/d' )
+      .end( ( err, res ) => {
+        assert.error( err );
+
+        assert.end();
+      });
+  });
 });

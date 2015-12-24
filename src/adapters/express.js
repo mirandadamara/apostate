@@ -10,12 +10,12 @@ const defaultOptions = {
 export default function( options = {} ) {
   options = Object.assign({}, defaultOptions, options );
 
-  const { app, Engine, initialize, render } = options;
+  const { app, Engine, config, initialize, render } = options;
 
   // Add middleware to express app.
   app.use( ( req, res, next ) => {
     initialize( req ).subscribe( initialState => {
-      const engine = Engine({ initialState });
+      const engine = Engine( Object.assign({ initialState }, config ) );
 
       function dispatch() {
         return engine.dispatch.apply( engine, arguments );
