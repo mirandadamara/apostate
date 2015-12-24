@@ -2,6 +2,21 @@ import test from 'tape';
 
 import Engine from '../../engine';
 
+test( "An engine", sub => {
+  sub.test( "...should accept a dictionary of actions on instantiation.", assert => {
+    assert.timeoutAfter( 1000 );
+    
+    const actions = {
+      'test:action-a': function( state, params ) {
+        assert.end();
+      }
+    };
+
+    const engine = Engine({ actions });
+    engine.dispatch( 'test:action-a' );
+  });
+});
+
 test( "The dispatcher", sub => {
   sub.test( "...should accept anonymous actions.", assert => {
     assert.plan( 5 );

@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 const defaultOptions = {
   initialState: {},
+  actions: {},
   warnings: true
 };
 
@@ -11,7 +12,7 @@ export default function( options = {} ) {
 
   const { initialState } = options;
 
-  const _actions = {};  // A dictionary of actions in the form name:function.
+  const _actions = Object.assign({}, options.actions );  // A dictionary of actions in the form name:function.
 
   const _queue = new Rx.Subject();
   const _state = _queue
