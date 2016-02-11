@@ -80,18 +80,18 @@ const actions = {
 const router = Router({ adapter: ExpressAdapter({ app, Engine, initialize, render, config: { actions } }) });
 
 router.get( '/', ( req, res ) => {
-    const { dispatch } = res;
+  const { dispatch } = res;
 
-    const href = ( typeof location != 'undefined' ) ? location.href : '/';
-    const network = req.state.getIn( ['session', 'user'] ) ? 'personal' : 'featured';
+  const href = ( typeof location != 'undefined' ) ? location.href : '/';
+  const network = req.state.getIn( ['session', 'user'] ) ? 'personal' : 'featured';
 
-    dispatch( state => {
-      state.delete( 'overlay' );
-      state.set( 'page', Immutable.fromJS({ base: 'home', title: "Home | This.", filters: { network } }) );
+  dispatch( state => {
+    state.delete( 'overlay' );
+    state.set( 'page', Immutable.fromJS({ base: 'home', title: "Home | This.", filters: { network } }) );
 
-      res.completed()
-    });
-
-    dispatch( 'feed:load', { network, done: res.completed });
+    res.completed()
   });
+
+  dispatch( 'feed:load', { network, done: res.completed });
+});
 ```
