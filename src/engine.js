@@ -29,7 +29,7 @@ export default function( options = {} ) {
 
   if ( options.debug ) {
     _state.subscribe(
-      val => console.log( "[apostate] Debug.", ( typeof val == 'object' && typeof va.toJS == 'function' ) ? val.toJS() : val )
+      val => console.log( "[apostate] Debug.", ( typeof val == 'object' && typeof val.toJS == 'function' ) ? val.toJS() : val )
     );
   }
 
