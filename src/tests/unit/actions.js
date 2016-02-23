@@ -5,7 +5,7 @@ import Engine from '../../engine';
 test( "An engine", sub => {
   sub.test( "...should accept a dictionary of actions on instantiation.", assert => {
     assert.timeoutAfter( 1000 );
-    
+
     const actions = {
       'test:action-a': function( state, params ) {
         assert.end();
@@ -69,6 +69,30 @@ test( "Actions", sub => {
     });
 
     assert.equal( flag, false, "The action should be executed after the dispatching thread completes.")
+  });
+
+  sub.test( "...should update engine state.", assert => {
+    assert.plan( 1 );
+
+    const engine = Engine();
+
+    engine.state(
+      val => {
+        assert.equal( val.get( 'flag' ), 'SET', "The test flag should be set." );
+      },
+
+      err => assert.fail( err ),
+
+      () => {
+        assert.end();
+      }
+    );
+
+    engine.register( 'test:update', ( state, params ) => {
+      state.set( 'flag', 'SET' );
+    });
+
+    engine.dispatch( 'test:update' );
   });
 });
 

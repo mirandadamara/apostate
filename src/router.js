@@ -1,5 +1,5 @@
 import page from 'page';
-import map from 'lodash/collection/map';
+import map from 'lodash/map';
 
 const defaultOptions = {};
 

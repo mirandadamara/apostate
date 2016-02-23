@@ -2,6 +2,7 @@ import Rx from 'rx/dist/rx.all';
 import Immutable from 'immutable';
 
 const defaultOptions = {
+  debug: false,
   initialState: {},
   actions: {},
   warnings: true
@@ -23,7 +24,13 @@ export default function( options = {} ) {
   _state.connect();
 
   function execute( action, state ) {
-    return state.withMutations( s => action.fn.call({}, s, action.params ) );
+    return state.withMutations( s => action.fn.call({ dispatch }, s, action.params ) );
+  }
+
+  if ( options.debug ) {
+    _state.subscribe(
+      val => console.log( "[apostate] Debug.", ( typeof val == 'object' && typeof va.toJS == 'function' ) ? val.toJS() : val )
+    );
   }
 
   /**
