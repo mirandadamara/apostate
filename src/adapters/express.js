@@ -23,7 +23,7 @@ export default function( options = {} ) {
 
       function completed() {
         engine.dispatch( state => {
-          const { document, status } = render( state );
+          const { document, status } = render( state, dispatch );
 
           res.status( status ).send( document );
         });
