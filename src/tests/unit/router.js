@@ -40,3 +40,21 @@ test( "A router should apply the provided adapter to each route added.", assert 
 
   assert.end();
 });
+
+test( "A router should expose a 'navigate' method that passes through to the adapter.", assert => {
+  assert.plan( 2 );
+
+  const adapter = {
+    navigate( url ) {
+      assert.pass( "Call passed to adapter." );
+    }
+  };
+
+  const router = Router({ adapter });
+
+  assert.equal( typeof router.navigate, 'function', "A 'navigate' method should be exposed on the router." );
+
+  router.navigate( '/test' );
+
+  assert.end();
+});

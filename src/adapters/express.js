@@ -48,6 +48,10 @@ export default function( options = {} ) {
 
     adapt( handler ) {
       return handler;
+    },
+
+    navigate( url ) {
+      // NOOP
     }
   };
 }

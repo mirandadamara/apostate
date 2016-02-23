@@ -13,6 +13,10 @@ export default function( options = {} ) {
       handlers = map( handlers, handler => adapter.adapt( handler ) );
 
       adapter.route( path, handlers );
+    },
+
+    navigate( url ) {
+      return adapter.navigate( url );
     }
   };
 }

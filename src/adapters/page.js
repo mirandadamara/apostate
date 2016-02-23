@@ -29,6 +29,10 @@ export default function( options = {} ) {
 
         return handler( req, res, next );
       };
+    },
+
+    navigate( url ) {
+      page( url );
     }
   };
 }
