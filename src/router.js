@@ -15,6 +15,12 @@ export default function( options = {} ) {
       adapter.route( path, handlers );
     },
 
+    use( ...handlers ) {
+      handlers = map( handlers, handler => adapter.adapt( handler ) );
+
+      adapter.middleware( handlers );
+    },
+
     navigate( url ) {
       return adapter.navigate( url );
     }

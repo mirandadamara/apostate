@@ -46,6 +46,10 @@ export default function( options = {} ) {
       app.get( path, ...handlers );
     },
 
+    middleware( handlers ) {
+      app.use( ...handlers );
+    },
+
     adapt( handler ) {
       return handler;
     },
