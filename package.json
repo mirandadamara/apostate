@@ -1,6 +1,6 @@
 {
   "name": "apostate",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Reactive state management.",
   "main": "lib/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "test:integration": "tape 'lib/tests/integration/**/*.js' | faucet",
     "test": "npm run test:unit && npm run test:integration",
     "start": "",
+    "clean": "rm -rf ./lib",
     "build": "babel src --out-dir lib",
     "build-watch": "babel src --watch --out-dir lib"
   },
