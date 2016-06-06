@@ -24,6 +24,10 @@ export default function( options = {} ) {
           return engine.dispatch.apply( engine, arguments );
         }
 
+        function redirect( path ) {
+          return page.redirect( path );
+        }
+
         function completed() {}
 
         function _next( err ) {
@@ -37,6 +41,7 @@ export default function( options = {} ) {
 
         const res = {
           dispatch,
+          redirect,
           completed
         };
 
