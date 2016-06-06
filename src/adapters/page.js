@@ -25,7 +25,7 @@ export default function( options = {} ) {
         }
 
         function redirect( path ) {
-          return page.redirect( path );
+          return page( path );
         }
 
         function completed() {}
@@ -35,17 +35,20 @@ export default function( options = {} ) {
           next();
         }
 
-        const req = {
-          params: context.params
-        };
+        return dispatch( state => {
+          const req = {
+            state,
+            params: context.params
+          };
 
-        const res = {
-          dispatch,
-          redirect,
-          completed
-        };
+          const res = {
+            dispatch,
+            redirect,
+            completed
+          };
 
-        return handler( req, res, _next );
+          handler( req, res, _next );
+        });
       };
     },
 
