@@ -12,7 +12,7 @@ const defaultOptions = {
 const schedulers = {
   'default':    Rx.Scheduler.default,
   'current':    Rx.Scheduler.currentThread,
-  'immediate':  Rx.Scheduler.default
+  'immediate':  Rx.Scheduler.immediate
 };
 
 export default function( options = {} ) {
