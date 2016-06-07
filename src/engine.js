@@ -23,8 +23,14 @@ export default function( options = {} ) {
 
   _state.connect();
 
+  const _debugger = new Rx.Subject();
+
   function execute( action, state ) {
-    return state.withMutations( s => action.fn.call({ dispatch }, s, action.params ) );
+    const result = state.withMutations( s => action.fn.call({ dispatch }, s, action.params ) );
+
+    _debugger.onNext({ action: ( action.name ? action.name : "[anonymous]" ), params: action.params, state: result });
+
+    return result;
   }
 
   if ( options.debug ) {
@@ -57,7 +63,7 @@ export default function( options = {} ) {
         if ( options.warnings ) console.warn( `[apostate] No registered action for ${ name }.` );
       }
       else {
-        _queue.onNext({ fn: action, params });
+        _queue.onNext({ fn: action, name, params });
       }
     }
   }
@@ -66,9 +72,14 @@ export default function( options = {} ) {
     return _state.subscribe( ...observer );
   }
 
+  function debug( ...observer ) {
+    return _debugger.subscribe( ...observer );
+  }
+
   return {
     register,
     dispatch,
-    state
+    state,
+    debug
   };
 }
