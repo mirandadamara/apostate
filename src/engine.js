@@ -5,7 +5,14 @@ const defaultOptions = {
   debug: false,
   initialState: {},
   actions: {},
-  warnings: true
+  warnings: true,
+  scheduling: 'default'
+};
+
+const schedulers = {
+  'default':    Rx.Scheduler.default,
+  'current':    Rx.Scheduler.currentThread,
+  'immediate':  Rx.Scheduler.default
 };
 
 export default function( options = {} ) {
@@ -17,7 +24,7 @@ export default function( options = {} ) {
 
   const _queue = new Rx.Subject();
   const _state = _queue
-    .observeOn( Rx.Scheduler.default )
+    .observeOn( schedulers[options.scheduling] || Rx.Scheduler.default )
     .scan( ( state, action ) => execute( action, state ), Immutable.fromJS( initialState ) )
     .publish();
 
