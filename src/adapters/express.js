@@ -14,31 +14,35 @@ export default function( options = {} ) {
 
   // Add middleware to express app.
   app.use( ( req, res, next ) => {
-    initialize( req ).subscribe( initialState => {
-      const engine = Engine( Object.assign({ initialState }, config ) );
+    initialize( req ).subscribe(
+      initialState => {
+        const engine = Engine( Object.assign({ initialState }, config ) );
 
-      function dispatch() {
-        return engine.dispatch.apply( engine, arguments );
-      }
+        function dispatch() {
+          return engine.dispatch.apply( engine, arguments );
+        }
 
-      function completed() {
-        engine.dispatch( state => {
-          const { document, status } = render( state, dispatch );
+        function completed() {
+          engine.dispatch( state => {
+            const { document, status } = render( state, dispatch );
 
-          res.status( status ).send( document );
-        });
-      };
+            res.status( status ).send( document );
+          });
+        };
 
-      engine.state(
-        state => {},
-        error => next( error )
-      );
+        engine.state(
+          state => {},
+          error => next( error )
+        );
 
-      Object.assign( req, { state: initialState });
-      Object.assign( res, { dispatch, completed });
+        Object.assign( req, { state: initialState });
+        Object.assign( res, { dispatch, completed });
 
-      next();
-    });
+        next();
+      },
+
+      err => next( err )
+    );
   });
 
   return {
