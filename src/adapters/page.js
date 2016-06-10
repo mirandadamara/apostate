@@ -47,7 +47,11 @@ export default function( options = {} ) {
             completed
           };
 
-          handler( req, res, _next );
+          if ( context.err && handler.length == 4 ) {
+            return handler( context.err, req, res, _next );
+          }
+
+          return handler( req, res, _next );
         });
       };
     },

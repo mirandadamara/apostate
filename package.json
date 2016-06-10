@@ -1,6 +1,6 @@
 {
   "name": "apostate",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "Reactive state management.",
   "main": "lib/index.js",
   "scripts": {
