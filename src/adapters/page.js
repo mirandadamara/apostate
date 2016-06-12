@@ -38,7 +38,10 @@ export default function( options = {} ) {
         return dispatch( state => {
           const req = {
             state,
-            params: context.params
+            params:       context.params,
+            url:          context.path,
+            path:         context.pathname,
+            querystring:  context.querystring
           };
 
           const res = {
