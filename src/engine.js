@@ -1,24 +1,26 @@
-import { Scheduler, Subject } from 'rx/dist/rx.lite';
-import Immutable from 'immutable';
-
 const defaultOptions = {
-  debug: false,
   initialState: {},
   actions: {},
-  warnings: true,
   scheduling: 'default'
-};
-
-const schedulers = {
-  'default':    Scheduler.default,
-  'current':    Scheduler.currentThread,
-  'immediate':  Scheduler.immediate
 };
 
 export default function( options = {} ) {
   options = Object.assign({}, defaultOptions, options );
 
-  const { initialState } = options;
+  const { Rx, Immutable, initialState } = options;
+
+  if ( process.env.NODE_ENV !== "production" ) {
+    if ( !Rx ) throw new Error( "Missing dependency: the apostate engine requires a reference to the RxJS library." ):
+    if ( !Immutable ) throw new Error( "Missing dependency: the apostate engine requires a reference to the Immutable library." ): 
+  }
+
+  const { Scheduler, Subject } = Rx;
+
+  const schedulers = {
+    'default':    Scheduler.default,
+    'current':    Scheduler.currentThread,
+    'immediate':  Scheduler.immediate
+  };
 
   const _actions = Object.assign({}, options.actions );  // A dictionary of actions in the form name:function.
 
@@ -40,9 +42,9 @@ export default function( options = {} ) {
     return result;
   }
 
-  if ( options.debug ) {
+  if ( process.env.NODE_ENV !== "production" ) {
     _state.subscribe(
-      val => console.log( "[apostate] Debug.", ( typeof val == 'object' && typeof val.toJS == 'function' ) ? val.toJS() : val )
+      val => console.log( "[apostate]", ( typeof val == 'object' && typeof val.toJS == 'function' ) ? val.toJS() : val )
     );
   }
 
@@ -67,7 +69,7 @@ export default function( options = {} ) {
       const action = _actions[name];
 
       if ( !action ) {
-        if ( options.warnings ) console.warn( `[apostate] No registered action for ${ name }.` );
+        if ( process.env.NODE_ENV !== "production" ) console.warn( `[apostate] No registered action for ${ name }.` );
       }
       else {
         _queue.onNext({ fn: action, name, params });
