@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { Observable } from 'rx/dist/rx.all';
+import { Observable } from 'rx/dist/rx.lite';
 
 const defaultOptions = {
   initialize( req ) {

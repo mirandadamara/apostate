@@ -1,4 +1,4 @@
-import Rx from 'rx/dist/rx.all';
+import { Scheduler, Subject } from 'rx/dist/rx.lite';
 import Immutable from 'immutable';
 
 const defaultOptions = {
@@ -10,9 +10,9 @@ const defaultOptions = {
 };
 
 const schedulers = {
-  'default':    Rx.Scheduler.default,
-  'current':    Rx.Scheduler.currentThread,
-  'immediate':  Rx.Scheduler.immediate
+  'default':    Scheduler.default,
+  'current':    Scheduler.currentThread,
+  'immediate':  Scheduler.immediate
 };
 
 export default function( options = {} ) {
@@ -22,15 +22,15 @@ export default function( options = {} ) {
 
   const _actions = Object.assign({}, options.actions );  // A dictionary of actions in the form name:function.
 
-  const _queue = new Rx.Subject();
+  const _queue = new Subject();
   const _state = _queue
-    .observeOn( schedulers[options.scheduling] || Rx.Scheduler.default )
+    .observeOn( schedulers[options.scheduling] || Scheduler.default )
     .scan( ( state, action ) => execute( action, state ), Immutable.fromJS( initialState ) )
     .publish();
 
   _state.connect();
 
-  const _debugger = new Rx.Subject();
+  const _debugger = new Subject();
 
   function execute( action, state ) {
     const result = state.withMutations( s => action.fn.call({ dispatch }, s, action.params ) );
