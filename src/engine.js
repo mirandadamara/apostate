@@ -10,8 +10,8 @@ export default function( options = {} ) {
   const { Rx, Immutable, initialState } = options;
 
   if ( process.env.NODE_ENV !== "production" ) {
-    if ( !Rx ) throw new Error( "Missing dependency: the apostate engine requires a reference to the RxJS library." ):
-    if ( !Immutable ) throw new Error( "Missing dependency: the apostate engine requires a reference to the Immutable library." ): 
+    if ( !Rx ) throw new Error( "Missing dependency: the apostate engine requires a reference to the RxJS library." );
+    if ( !Immutable ) throw new Error( "Missing dependency: the apostate engine requires a reference to the Immutable library." );
   }
 
   const { Scheduler, Subject } = Rx;
