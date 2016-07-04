@@ -1,5 +1,6 @@
 import Immutable from 'immutable';
-import Rx, { Observable } from 'rx/dist/rx.lite';
+import Rx, { Observable } from 'rx-lite';
+import RxExtras from 'rx-lite-extras';  // TODO: Receive Immutable and Rx as an injected dependency.
 
 const defaultOptions = {
   initialize( req ) {

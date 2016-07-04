@@ -1,6 +1,6 @@
 {
   "name": "apostate",
-  "version": "0.1.0-beta.4",
+  "version": "0.1.0-beta.5",
   "description": "Reactive state management.",
   "main": "lib/index.js",
   "scripts": {
@@ -26,7 +26,9 @@
     "immutable": "^3.7.5",
     "lodash": "^4.5.1",
     "page": "^1.6.4",
-    "rx": "^4.0.7",
+    "rx": "^4.1.0",
+    "rx-lite": "^4.0.8",
+    "rx-lite-extras": "^4.0.8",
     "supertest": "^1.1.0"
   },
   "devDependencies": {
