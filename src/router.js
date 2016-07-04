@@ -1,12 +1,13 @@
-import page from 'page';
-import map from 'lodash/map';
-
 const defaultOptions = {};
 
 export default function( options = {} ) {
   options = Object.assign({}, defaultOptions, options );
 
-  const { adapter } = options;
+  const { Immutable, adapter } = options;
+
+  function map( arr, transform ) {
+    return Immutable.List( arr ).map( transform ).toArray();
+  }
 
   return {
     get( path, ...handlers ) {
