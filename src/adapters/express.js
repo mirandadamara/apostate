@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { Observable } from 'rx/dist/rx.lite';
+import Rx, { Observable } from 'rx/dist/rx.lite';
 
 const defaultOptions = {
   initialize( req ) {
@@ -16,7 +16,7 @@ export default function( options = {} ) {
   app.use( ( req, res, next ) => {
     initialize( req ).subscribe(
       initialState => {
-        const engine = Engine( Object.assign({ initialState }, config ) );
+        const engine = Engine( Object.assign({ Rx, Immutable, initialState }, config ) );
 
         function dispatch() {
           return engine.dispatch.apply( engine, arguments );
